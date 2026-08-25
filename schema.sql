@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS links (
+    shortCode TEXT PRIMARY KEY,
+    dest TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS clicks (
+    id INTEGER PRIMARY KEY,
+    shortCode TEXT,
+    clickedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (shortCode) REFERENCES links(shortCode)
+);
+

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>edit link</title>
+</head>
+<body>
+    <h1>edit a link</h1>
+    <p>short code: {{ code }}</p>
+    <form method="post" action="/admin/edit/{{ code }}">
+        <label>destination URL: <input type="text" name="dest" value="{{ dest }}"></label><br>
+        <button type="submit">edit</button>
+    </form>
+</body>
+</html>

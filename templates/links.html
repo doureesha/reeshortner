@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdf5f5;
+            color: #3a1015;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            color: #7b1e2b;
+            border-bottom: 2px solid #7b1e2b;
+            padding-bottom: 8px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            border-left: 4px solid #7b1e2b;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+        }
+        a {
+            color: #7b1e2b;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Links</h1>
+    <p><a href="/admin/add">+ add a new link</a></p>
+    <ul>
+        {% for item in links %}
+        <li>
+            <strong>{{ item[0] }}</strong>: {{ item[1] }}, {{ item[2] }} clicks
+            <br>
+            <a href="/admin/edit/{{ item[0] }}">edit</a> |
+            <a href="/admin/delete/{{ item[0] }}">delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
