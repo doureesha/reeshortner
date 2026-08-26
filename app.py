@@ -23,12 +23,6 @@ def requires_auth(f):
         return f(*args, **kwargs)
     return decorated
 
-def get_client_ip():
-    forwarded = request.headers.get("X-Forwarded-For", "")
-    if forwarded:
-        return forwarded.split(",")[0].strip()
-    return request.remote_addr
-
 @app.route("/debug-ip")
 def debug_ip():
     return {
@@ -47,8 +41,9 @@ def redirectLink(code):
     if result is None:
         abort(404)
 
-    ip = get_client_ip()
-    user_agent = request.headers.get("User-Agent", "") 
+    ip = request.headers.get("X-Forwarded-For", request.remote_addr)
+    user_agent = request.headers.get("User-Agent", "")
+
     conn2 = sq.connect("links.db")
     cursor2 = conn2.cursor()
     cursor2.execute(
