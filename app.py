@@ -48,7 +48,7 @@ def redirectLink(code):
         abort(404)
 
     ip = get_client_ip()
-
+    user_agent = request.headers.get("User-Agent", "") 
     conn2 = sq.connect("links.db")
     cursor2 = conn2.cursor()
     cursor2.execute(
