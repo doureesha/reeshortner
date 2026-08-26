@@ -24,21 +24,27 @@ def requires_auth(f):
     return decorated
 
 @app.route("/<code>")
-
 def redirectLink(code):
-    conn = sq.connect("links.db") # connection to db file itself
-    cursor = conn.cursor() # what executes sql
+    conn = sq.connect("links.db")
+    cursor = conn.cursor()
     cursor.execute("SELECT dest FROM links WHERE shortCode = ?", (code,))
-    result = cursor.fetchone() # gets u single matching row
+    result = cursor.fetchone()
     conn.close()
     if result is None:
         abort(404)
+
+    ip = request.headers.get("X-Forwarded-For", request.remote_addr)
+    user_agent = request.headers.get("User-Agent", "")
+
     conn2 = sq.connect("links.db")
     cursor2 = conn2.cursor()
-    cursor2.execute("INSERT INTO clicks (shortCode) VALUES (?)", (code,))
+    cursor2.execute(
+        "INSERT INTO clicks (shortCode, ip, userAgent) VALUES (?, ?, ?)",
+        (code, ip, user_agent)
+    )
     conn2.commit()
     conn2.close()
-    return redirect(result[0]) # its a tuple
+    return redirect(result[0])
 
 @app.route("/admin")
 @requires_auth
